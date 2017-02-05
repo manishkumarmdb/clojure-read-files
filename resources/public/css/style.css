@@ -1,0 +1,21 @@
+.table-table {
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-th {
+    border: 1px solid black;
+    width: 20%;
+}
+
+.table-td {
+    border: 1px solid black;
+}
+
+.table-td-div {
+    height: 400px;
+    text-align: justify;
+    font-family: "Times New Roman", Times, serif;
+    overflow-y: scroll;
+}
