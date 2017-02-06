@@ -8,7 +8,7 @@ FIXME
 Update directory path for reading files at `line no. 24` in `src/clojure_read_files/service.clj`
 
 1. Start the application: go inside project directory and run command `lein run`
-2. Go to [localhost:8080](http://localhost:8080/) to see: `Result`
+2. Go to [localhost:8080](http://localhost:8080/) or [server API](http://127.0.0.1:8080/) to see: `Result`
 3. Read your app's source code at src/clojure_read_files/service.clj. Explore the docs of functions
    that define routes and responses.
 4. Run your app's tests with `lein test`. Read the tests at test/clojure_read_files/service_test.clj.
