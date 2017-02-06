@@ -69,7 +69,7 @@
                         ])]]
                    [:tbody
                     [:tr
-                     (for [file-name (take 5 (get-files-name))] ;; take only 5 file's contents
+                     (for [file-name (take 5 (get-files-name))] ;; take only 5 file's contents max
                        ^{:key file-name}
                        [:td.table-td
                         [:div.table-td-div
