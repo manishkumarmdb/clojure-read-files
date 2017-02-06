@@ -1,27 +1,26 @@
 (ns clojure-read-files.service
-  (:require [clojure.java.io :as io]
-            [io.pedestal.http :as http]
-            [io.pedestal.http.route :as route]
-            [io.pedestal.http.body-params :as body-params]
-            [io.pedestal.http.ring-middlewares :as middlewares]
-            [ring.util.response :as ring-resp]
-            [ring.middleware.session.cookie :as cookie]
+  (:require [clojure.java.io                          :as io]
+            [io.pedestal.http                         :as http]
+            [io.pedestal.http.route                   :as route]
+            [io.pedestal.http.body-params             :as body-params]
+            [io.pedestal.http.ring-middlewares        :as middlewares]
+            [ring.util.response                       :as ring-resp]
+            [ring.middleware.session.cookie           :as cookie]
             ;;
-            [ring.middleware.file :as ring-file]
-            [hiccup.core        :as hiccup]
-            [clojure.string :as clj-string]))
+            [ring.middleware.file                     :as ring-file]
+            [hiccup.core                              :as hiccup]
+            [clojure.string                           :as clj-string]
+            [cheshire.core                            :refer :all] ;; for read/write JSON format
+            ))
 
-;;
-(defn html-response
-  [html]
-  {:status 200 :body html :headers {"Content-Type" "text/html"}})
 
+;; Question.
 (def question " Write a program that reads 05 essays from plain-text files,
   then prints those essays as a table of 05 columns. Each essay should be printed
   in its own column. The essay should be printed as justified text with word wrap,
   without any loss of formatting (newline) around paragraphs.")
 
-;;
+;; define path for accessing files from system.
 (defonce path "/home/manish/manish/essays")
 
 (def get-files-from-path (file-seq (io/file path)))
@@ -96,18 +95,49 @@
                   [:div
                    (answer-hiccup path)]]]]))
 
+
+;; generate map with file-name and it's contents
+(defn file-to-map [file-name file-contents-seq]
+  {:file-name     file-name,
+   :file-contents (into [] file-contents-seq)})
+
+;; storing map of file-names and it's contents in vector
+(defn data [path]
+  (loop [return-data []
+         files       (get-files-name)]
+    (if (empty? files)
+      return-data
+      (recur (conj return-data
+                   (file-to-map (first files)
+                                (get-file-contents path
+                                                   (first files))))
+             (rest files)))))
+
+;; manually generate JSON for file and its contents
+(defn data-to-json [path]
+  (generate-string (data path)
+                   {:pretty true}))
+
+;; define responce for success.
+(defn html-response
+  [html]
+  {:status  200
+   :body    html
+   :headers {"Content-Type" "text/html"}
+   })
+
 ;; Gather some data from the user to retain in their session.
-(defn intro-form
-  "Prompt a user for their name, then remember it."
+(defn home-page
   [req]
   (html-response
    (question-hiccup path)))
 
 ;; Set up routes to get all the above handlers accessible.
 (def routes
-  (let [session-interceptor (middlewares/session {:store (cookie/cookie-store)})]
+  (let [session-interceptor (middlewares/session
+                             {:store (cookie/cookie-store)})]
     (route/expand-routes
-     [[["/" {:get `intro-form}]]])))
+     [[["/" {:get `home-page}]]])))
 
 (def service {:env                 :prod
               ::http/routes        routes
