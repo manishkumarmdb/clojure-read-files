@@ -65,7 +65,8 @@
                      (for [hd (get-files-name)]
                        ^{:key hd}
                        [:th.table-th
-                        (first (clj-string/split hd #"[.]"))])]]
+                        (first (clj-string/split hd #"[.]")) ;; getting file name without extension
+                        ])]]
                    [:tbody
                     [:tr
                      (for [file-name (get-files-name)]
