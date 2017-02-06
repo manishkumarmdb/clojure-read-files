@@ -62,14 +62,14 @@
                   [:table.table-table
                    [:thead
                     [:tr
-                     (for [hd (get-files-name)]
+                     (for [hd (take 5 (get-files-name))] ;; take only 5 files max
                        ^{:key hd}
                        [:th.table-th
                         (first (clj-string/split hd #"[.]")) ;; getting file name without extension
                         ])]]
                    [:tbody
                     [:tr
-                     (for [file-name (get-files-name)]
+                     (for [file-name (take 5 (get-files-name))] ;; take only 5 file's contents
                        ^{:key file-name}
                        [:td.table-td
                         [:div.table-td-div
