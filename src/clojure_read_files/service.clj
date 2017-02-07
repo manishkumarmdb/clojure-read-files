@@ -119,13 +119,21 @@
   (generate-string (data path)
                    {:pretty true}))
 
-;; define responce for success.
+;; define html response for success.
 (defn html-response
   [html]
   {:status  200
    :body    html
    :headers {"Content-Type" "text/html"}
    })
+
+;; define JSON response, used for client side
+#_(defn html-response
+    [html]
+    {:status  200
+     :body    (data-to-json path)
+     :headers {"Content-Type" "application/json"}
+     })
 
 ;; Gather some data from the user to retain in their session.
 (defn home-page
