@@ -81,7 +81,7 @@
                    ]]]]
                ))
 
-(defn question-hiccup [path]
+(defn ques-ans-hiccup [path]
   (hiccup/html ""
                [:html
                 [:head
@@ -139,7 +139,7 @@
 (defn home-page
   [req]
   (html-response
-   (question-hiccup path)))
+   (ques-ans-hiccup path)))
 
 ;; Set up routes to get all the above handlers accessible.
 (def routes
