@@ -13,12 +13,12 @@
   [& args]
   (println "\nCreating your [DEV] server...")
   (-> service/service ;; start with production configuration
-      (merge {:env :dev
+      (merge {:env                     :dev
               ;; do not block thread that starts web server
-              ::server/join? false
+              ::server/join?           false
               ;; Routes can be a function that resolve routes,
               ;;  we can use this to set the routes to be reloadable
-              ::server/routes #(route/expand-routes (deref #'service/routes))
+              ::server/routes          #(route/expand-routes (deref #'service/routes))
               ;; all origins are allowed in dev mode
               ::server/allowed-origins {:creds true :allowed-origins (constantly true)}})
       ;; Wire up interceptor chains
@@ -28,9 +28,11 @@
       server/start))
 
 (defn -main
-  "The entry-point for 'lein run'"
+  "The entry-point for 'lein run dir-path'"
   [& args]
-  (println "\nCreating your server...")
+  (println "\nCreating your server...\n")
+  (reset! service/path (first args))
+  (println (str "Your Directory Path is : " @service/path "\n"))
   (server/start runnable-service))
 
 ;; If you package the service up as a WAR,
