@@ -4,10 +4,7 @@ FIXME
 
 ## Getting Started
 
-##### Important
-Update directory path for reading files at `line no. 24` in `src/clojure_read_files/service.clj`
-
-1. Start the application: go inside project directory and run command `lein run`
+1. Start the application: go inside project directory and run command `lein run dir-path` for example : `lein run /home/manish/manish/essays`
 2. Go to [localhost:8080](http://localhost:8080/) or [server API](http://127.0.0.1:8080/) to see: `Result`
 3. Read your app's source code at src/clojure_read_files/service.clj. Explore the docs of functions
    that define routes and responses.
